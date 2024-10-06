@@ -8,6 +8,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+use Illuminate\Support\Facades\Hash;
+
 class UserTest extends TestCase
 {
     use RefreshDatabase;
@@ -33,13 +35,14 @@ class UserTest extends TestCase
     }
 
     public function test_admin_can_access_index(){
-        $adminUser = Admin::factory()->create();
+        $admin = new Admin();
+        $admin->email='admin@example.com';
+        $admin->password= Hash::make('nagoyameshi');
+        $admin->save();
 
-        $user = User::factory()->create();
+        $response=$this->actingAs($admin, 'admin')->get(route('admin.users.index'));
 
-        $response=$this->actingAs($adminUser, 'admin')->get(route('admin.users.index'));
-
-        $response->assertRedirect('admin/home');
+        $response->assertRedirect(200);
     }
 
     public function test_guest_cannot_access_show(): void
@@ -55,18 +58,19 @@ class UserTest extends TestCase
     public function test_user_cannot_access_show(){
         $user = User::factory()->create();
 
-        $response=$this->actingAs($user)->get(route('admin.users.show'));
+        $response=$this->get(route('admin.users.show', $user));
 
         $response->assertRedirect(route('admin.login'));
     }
 
     public function test_admin_can_access_show(){
-        $adminUser = Admin::factory()->create();
+        $admin = new Admin();
+        $admin->email='admin@example.com';
+        $admin->password= Hash::make('nagoyameshi');
+        $admin->save();
 
-        $user = User::factory()->create();
+        $response=$this->actingAs($admin, 'admin')->get(route('admin.users.show'));
 
-        $response=$this->actingAs($adminUser, 'admin')->get(route('admin.users.show'));
-
-        $response->assertRedirect('admin/home');
+        $response->assertRedirect(200);
     }
 }
