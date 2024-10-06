@@ -21,7 +21,7 @@ class UserTest extends TestCase
 
         $response = $this->get(route('admin.users.index'));
 
-        $response->assertRedirect(route('login'));
+        $response->assertRedirect(route('admin.login'));
     }
 
     public function test_user_cannot_access_index(){
@@ -29,7 +29,7 @@ class UserTest extends TestCase
 
         $response=$this->actingAs($user)->get(route('admin.users.index'));
 
-        $response->assertRedirect(route('login'));
+        $response->assertRedirect(route('admin.login'));
     }
 
     public function test_admin_can_access_index(){
@@ -50,7 +50,7 @@ class UserTest extends TestCase
 
         $response = $this->get(route('admin.users.show'));
 
-        $response->assertRedirect(route('login'));
+        $response->assertRedirect(route('admin.login'));
     }
 
     public function test_user_cannot_access_show(){
@@ -58,7 +58,7 @@ class UserTest extends TestCase
 
         $response=$this->actingAs($user)->get(route('admin.users.show'));
 
-        $response->assertRedirect(route('login'));
+        $response->assertRedirect(route('admin.login'));
     }
 
     public function test_admin_can_access_show(){
