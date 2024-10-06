@@ -33,13 +33,14 @@ class UserTest extends TestCase
     }
 
     public function test_admin_can_access_index(){
-        $adminUser = Admin::factory()->create();
-
-        $user = User::factory()->create();
+        $admin = new Admin();
+        $admin->email = 'admin@example.com';
+        $admin->password = Hash::make('nagoyameshi');
+        $admin->save();
 
         $response=$this->actingAs($adminUser, 'admin')->get(route('admin.users.index'));
 
-        $response->assertRedirect('admin/home');
+        $response->assertRedirect('200');
     }
 
     public function test_guest_cannot_access_show(): void
@@ -61,12 +62,13 @@ class UserTest extends TestCase
     }
 
     public function test_admin_can_access_show(){
-        $adminUser = Admin::factory()->create();
-
-        $user = User::factory()->create();
+        $admin = new Admin();
+        $admin->email = 'admin@example.com';
+        $admin->password = Hash::make('nagoyameshi');
+        $admin->save();
 
         $response=$this->actingAs($adminUser, 'admin')->get(route('admin.users.show'));
 
-        $response->assertRedirect('admin/home');
+        $response->assertRedirect('200');
     }
 }
