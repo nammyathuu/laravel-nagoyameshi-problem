@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -18,7 +18,7 @@ class UserController extends Controller
             $total=$users->total();
         }else{
             $users=User::paginate(15);
-            $total="";
+            $total=0;
             $keyword=null;
         }    
 
@@ -26,8 +26,6 @@ class UserController extends Controller
     }
 
     public function show(User $user){
-        $users=User::find('name');
-
-        return view('admin.users.show',compact('name'));      
+        return view('admin.users.show',compact('user'));      
     }
 }

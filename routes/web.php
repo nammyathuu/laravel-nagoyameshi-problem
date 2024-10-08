@@ -23,10 +23,7 @@ Route::get('/', function () {
 require __DIR__.'/auth.php';
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth:admin'], function () {
-    Route::get('home', [HomeController::class, 'index'])->name('home');
+    Route::get('home', [Admin\HomeController::class, 'index'])->name('home');
+    Route::resource('users', Admin\UserController::class)->only(['index', 'show']);
 
-    Route::middleware(['verified', 'can:admin'])->group(function () {
-        Route::get('users', [UserController::class, 'index'])->name('users.index');
-        Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
-    });
 });
