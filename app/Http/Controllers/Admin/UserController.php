@@ -22,7 +22,7 @@ class UserController extends Controller
             $keyword=null;
         }    
 
-        return view('admin.user.index', compact('users','total','keyword'));
+        return view('admin.users.index', compact('users','total','keyword'));
     }
 
     public function show(User $user){
